@@ -1,0 +1,205 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  color: #2e2e2e;
+  font-family: "Inter", "Poppins", "Gill Sans", "Gill Sans MT", Calibri,
+    "Trebuchet MS", sans-serif;
+}
+
+.container {
+  display: flex;
+
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 5vw;
+    justify-content: space-between;
+    padding: 10px;
+    border-right: 2px solid rgb(202, 202, 202);
+
+    .vertical-nav {
+      ul {
+        display: flex;
+        flex-direction: column;
+        height: 180px;
+        justify-content: space-between;
+
+        li {
+          list-style: none;
+        }
+      }
+    }
+  }
+
+  .right-section {
+    display: flex;
+    flex-direction: column;
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 95vw;
+      padding: 10px;
+      border-bottom: 2px solid rgb(202, 202, 202);
+
+      .sec-1 {
+        display: flex;
+        align-items: center;
+        font-size: 70%;
+        span {
+          padding-right: 10px;
+        }
+      }
+      .sec-3 {
+        display: flex;
+        align-items: center;
+
+        .icons {
+          padding-right: 20px;
+          span {
+            padding-right: 15px;
+          }
+        }
+        .info {
+          display: inherit;
+          align-items: inherit;
+          padding: 0 10px 0 10px;
+
+          img {
+            border-radius: 50%;
+            padding-left: 10px;
+          }
+        }
+      }
+    }
+
+    .section-main {
+      padding: 30px 10px 10px 30px;
+      display: flex;
+      .section-main-right {
+        background-color: rgb(178, 238, 248);
+        display: flex;
+        flex-direction: column;
+        flex-basis: 40%;
+      }
+      .section-main-left {
+        // background-color: #d5eaffa4;
+        display: flex;
+        flex-direction: column;
+        flex-basis: 60%;
+
+        .section-main-left-heading {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 10px;
+
+          .section-main-left-heading-p1 {
+            display: flex;
+            align-items: center;
+            h5 {
+              color: white;
+              border-radius: 10px;
+              padding: 10px 20px;
+              margin-left: 15px;
+              background-color: rgba(31, 71, 104, 0.651);
+            }
+          }
+          .section-main-left-heading-p2 {
+            display: flex;
+            align-items: center;
+            img {
+              border: 2px solid rgb(214, 214, 214);
+              border-radius: 50%;
+              margin-right: 10px;
+            }
+            h4 {
+              font-size: 75%;
+              color: #d7dcea;
+            }
+          }
+        }
+        .section-main-left-courses {
+          display: flex;
+          padding: 15px 0;
+
+          .course-card {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            padding: 10px 10px;
+            border-radius: 10px;
+            width: 20vw;
+            margin-right: 1.5vw;
+            box-shadow: 2px 2px 5px rgba(167, 167, 167, 0.699);
+
+            .course-heading {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+
+              .course-name {
+                h5 {
+                  color: lightcoral;
+                }
+                h4 {
+                  color: lightslategrey;
+                }
+              }
+              .course-logo {
+                // padding: 5px;
+                background-color: rgb(209, 235, 232);
+                border-radius: 15px;
+                margin-right: 10px;
+              }
+            }
+            .course-author {
+              display: flex;
+              align-items: center;
+              font-size: 75%;
+              margin-left: 5px;
+              font-weight: 700;
+              color: rgb(56, 56, 56);
+              img {
+                border-radius: 50%;
+                padding: 1px;
+                border: px solid rgb(0, 204, 255);
+              }
+              span {
+                margin-right: 10px;
+              }
+              div {
+                margin-right: 5px;
+              }
+            }
+            .course-progress {
+              display: flex;
+              align-items: center;
+            }
+          }
+          .add-course-card {
+            background-color: #fff;
+            padding: 20px;
+            width: 10vw;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 5px rgba(167, 167, 167, 0.699);
+
+            span {
+              font-size: 350%;
+              color: rgb(173, 173, 173);
+            }
+          }
+        }
+      }
+    }
+  }
+}
