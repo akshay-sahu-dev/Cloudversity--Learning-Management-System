@@ -11,17 +11,21 @@
             max-width: 650px;
             background-color: #444;
         }
+
+        video {
+            border-radius: 20px;
+        }
     </style>
     <title>Video streaming</title>
 </head>
 
 <body>
 
-    <video id="videoPlayer" width="650" controls muted="auto" autoplay>
+    <video id="videoPlayer" width="650" controls autoplay muted>
         <source src="/video" type="video/mp4" />
 
     </video>
-    <script src="app.js"></script>
+    <!-- <script src="app.js"></script> -->
 </body>
 
 </html>
