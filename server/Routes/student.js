@@ -10,8 +10,13 @@ const Student = require('../Model/student');
 Router.post('/signup', async (req, res) => {
     try {
         const studentData = req.body;
+        
+        const student = await Student.findOne({ email: req.body.email });
+        if (student) {
+            return res.send({ message: "This email is already registered, try sign in", error: "Email already in use" });
+        };
 
-        const student = new Student ({
+        student = new Student ({
             ...studentData
         });
         // --- hashing the password --- /
