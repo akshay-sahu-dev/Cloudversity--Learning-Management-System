@@ -11,7 +11,12 @@ Router.post('/signup', async (req, res) => {
     try {
         const tutorData = req.body;
 
-        const tutor = new Tutor({
+        const tutor = await Tutor.findOne({email:req.body.email});
+        if (tutor) {
+            return res.send({message: "This email is already registered, try sign in", error: "Email already in use"});
+        };
+
+        tutor = new Tutor({
             ...tutorData
         });
         // --- hashing the password --- /
@@ -53,6 +58,9 @@ Router.post('/login', async (req, res) => {
         // --- Generating token and saving it in cookie --- /
         const token = await jwt.sign({ id: tutor._id, email: tutor.email }, process.env.JWT_SECRET);
         res.cookie('token', token, { httpOnly: true, maxAge: 1000000 });
+
+        // console.log("Token from Teacher Login Route ==> ", token);
+        // console.log("Cookie from Teacher Login Route ==> ", req.cookies);
 
         res.status(200).send({ message: "Tutor successfully logged in", tutorInfo: tutor })
 
