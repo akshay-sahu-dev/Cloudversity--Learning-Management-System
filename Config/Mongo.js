@@ -6,12 +6,12 @@ const URI = process.env.MONGO_URI;
 const MongoInit = async() => {
     try {
         // Uncomment the below line and comment line no, 11 to connect MongoDB Atlas
-        // await mongoose.connect(URI, { useUnifiedTopology: true, useNewUrlParser:true, useFindAndModify: true, useCreateIndex: true });
+        await mongoose.connect(URI, { useUnifiedTopology: true, useNewUrlParser:true, useFindAndModify: true, useCreateIndex: true });
 
-        await mongoose.connect("mongodb://localhost:27017/cloudversity", { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: true, useCreateIndex: true });
+        // await mongoose.connect("mongodb://localhost:27017/cloudversity", { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: true, useCreateIndex: true });
 
-        // console.log("Connected to MongoDB Atlas...");
-        console.log("Connected to MongoDB...");
+        console.log("Connected to MongoDB Atlas...");
+        // console.log("Connected to MongoDB...");
 
 
     } catch (error) {

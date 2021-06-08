@@ -11,7 +11,7 @@ Router.post('/signup', async (req, res) => {
     try {
         const studentData = req.body;
         
-        const student = await Student.findOne({ email: req.body.email });
+        let student = await Student.findOne({ email: req.body.email });
         if (student) {
             return res.send({ message: "This email is already registered, try sign in", error: "Email already in use" });
         };
@@ -59,7 +59,7 @@ Router.post('/login', async (req, res) => {
         const token = await jwt.sign({ id: student._id, email: student.email }, process.env.JWT_SECRET);
         res.cookie('token', token, { httpOnly: true, maxAge: 1000000 });
 
-        res.status(200).send({message: "Student successfully logged in", studentInfo:student})
+        res.status(200).send({message: "Student successfully logged in", studentInfo:student, token})
         
     } catch (error) {
 
