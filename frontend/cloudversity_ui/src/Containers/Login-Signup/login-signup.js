@@ -2,12 +2,13 @@ import React, {useState, useContext, useReducer} from 'react';
 import './login.css';
 import { useHistory } from 'react-router-dom';
 
+import { GoogleLogin } from 'react-google-login';
 
 function LOGIN_SIGNUP() {
 
     const [formData, setFormData] = useState({});
-    const [loginErrors, setLoginErrors] = useState("");
-    const [signupErrors, setSignupErrors] = useState("");
+    const [LoginMessage, setLoginMessage] = useState("");
+    const [SignupMessage, setSignupMessage] = useState("");
 
     const history = useHistory();
   
@@ -18,6 +19,8 @@ function LOGIN_SIGNUP() {
         // console.log(input)
     }
 
+    
+        console.log("OAUTH CLient ID ==> ", process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID)
 
 // ----------- Function for Sign In ------- /
     function handleLoginSubmit(e) {
@@ -34,7 +37,7 @@ function LOGIN_SIGNUP() {
         .then(data => {
             if (data.error){
                 console.log("Login failed...", data);
-                setLoginErrors(data.error)
+                setLoginMessage(data.error)
                 return
             }
             console.log("Data pushed successfully, user logged in", data);
@@ -54,7 +57,8 @@ function LOGIN_SIGNUP() {
         const formdata = formData;
 
         if (formData.password !== formData.confirm_password) {
-            setSignupErrors("Password Mismatch, please try again")
+             setSignupMessage("Password Mismatch, please try again");
+            return
         }
  
         fetch("http://localhost:5233/tut/signup",
@@ -68,14 +72,15 @@ function LOGIN_SIGNUP() {
             .then(data => {
                 if (data.error) {
                     console.log("Signup failed...", data);
-                    setSignupErrors(data.error)
+                    setSignupMessage(data.error)
                     return
                 }
                 console.log("Data pushed successfully, user signed up", data);
-                history.push('/login')
+                setSignupMessage("Successfully Signed up! CLick on Login button")
             })
             .catch(err => {
                 console.log("Error in login", err)
+                setSignupMessage("Unknown error occurred...")
 
             })
     }
@@ -114,7 +119,7 @@ function LOGIN_SIGNUP() {
                     <form className="login__form" id="loginForm" method="POST" onSubmit={handleLoginSubmit}>
                         
                         <h1 className="form__title">Sign In!</h1>
-                        {loginErrors && <span>{loginErrors}</span>}
+                        {LoginMessage && <span>{LoginMessage}</span>}
                         <div className="input__group">
                             <label className="field">
                                 <input type="text" name="email" placeholder="Enter your email" id="loginEmail" value={formData.email} onChange={handleInputChange}/>
@@ -148,13 +153,25 @@ function LOGIN_SIGNUP() {
                                 <i className='bx bxl-google'></i>
                                 <span>Google</span>
                             </div>
+                            <GoogleLogin
+                                clientId={`${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}`}
+                                buttonText="Login"
+                                // render={(renderProps) => (
+                                //     <Button className={classes.googleButton} color="primary" fullWidth onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} variant="contained">
+                                //         Google Sign In
+                                //     </Button>
+                                // )}
+                                // onSuccess={googleSuccess}
+                                // onFailure={googleError}
+                                cookiePolicy="single_host_origin"
+                            />
                         </div>
                     </form>
 
                     <form className="sign-up__form" id="signUpForm" onSubmit={handleSignup}>
                       
                         <h1 className="form__title">Sign Up!</h1>
-                        {signupErrors && <span>{signupErrors}</span>}
+                        {SignupMessage && <span>{SignupMessage}</span>}
                         <div className="input__group">
                             <label className="field">
                                 <input type="text" name="firstName" placeholder="Enter your first name..." id="signUpfirstName" value={formData.firstName} onChange={handleInputChange}/>
