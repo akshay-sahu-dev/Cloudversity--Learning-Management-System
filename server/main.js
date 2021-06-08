@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const studentRoutes = require('./Routes/student');
 const tutorRoutes = require('./Routes/tutor');
+const courseRoutes = require('./Routes/course');
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(cors());
 //-------- Importing and Using the Routes --------- //
 app.use("/stu", studentRoutes);
 app.use("/tut", tutorRoutes);
+app.use("/tut", courseRoutes);
 
 
 

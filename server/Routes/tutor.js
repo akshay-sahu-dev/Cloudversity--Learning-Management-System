@@ -11,7 +11,7 @@ Router.post('/signup', async (req, res) => {
     try {
         const tutorData = req.body;
 
-        const tutor = await Tutor.findOne({email:req.body.email});
+        let tutor = await Tutor.findOne({email:req.body.email});
         if (tutor) {
             return res.send({message: "This email is already registered, try sign in", error: "Email already in use"});
         };
@@ -62,7 +62,7 @@ Router.post('/login', async (req, res) => {
         // console.log("Token from Teacher Login Route ==> ", token);
         // console.log("Cookie from Teacher Login Route ==> ", req.cookies);
 
-        res.status(200).send({ message: "Tutor successfully logged in", tutorInfo: tutor })
+        res.status(200).send({ message: "Tutor successfully logged in", tutorInfo: tutor, token })
 
     } catch (error) {
 
