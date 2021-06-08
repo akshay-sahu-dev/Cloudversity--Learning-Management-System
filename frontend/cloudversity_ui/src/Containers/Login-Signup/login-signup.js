@@ -6,7 +6,8 @@ import { useHistory } from 'react-router-dom';
 function LOGIN_SIGNUP() {
 
     const [formData, setFormData] = useState({});
-    const [error, setError] = useState("");
+    const [loginErrors, setLoginErrors] = useState("");
+    const [signupErrors, setSignupErrors] = useState("");
 
     const history = useHistory();
   
@@ -33,7 +34,7 @@ function LOGIN_SIGNUP() {
         .then(data => {
             if (data.error){
                 console.log("Login failed...", data);
-                setError(data.error)
+                setLoginErrors(data.error)
                 return
             }
             console.log("Data pushed successfully, user logged in", data);
@@ -53,7 +54,7 @@ function LOGIN_SIGNUP() {
         const formdata = formData;
 
         if (formData.password !== formData.confirm_password) {
-            setError("Password Mismatch, please try again")
+            setSignupErrors("Password Mismatch, please try again")
         }
  
         fetch("http://localhost:5233/tut/signup",
@@ -67,7 +68,7 @@ function LOGIN_SIGNUP() {
             .then(data => {
                 if (data.error) {
                     console.log("Signup failed...", data);
-                    setError(data.error)
+                    setSignupErrors(data.error)
                     return
                 }
                 console.log("Data pushed successfully, user signed up", data);
@@ -113,7 +114,7 @@ function LOGIN_SIGNUP() {
                     <form className="login__form" id="loginForm" method="POST" onSubmit={handleLoginSubmit}>
                         
                         <h1 className="form__title">Sign In!</h1>
-                       {error && <span>{error}</span>}
+                        {loginErrors && <span>{loginErrors}</span>}
                         <div className="input__group">
                             <label className="field">
                                 <input type="text" name="email" placeholder="Enter your email" id="loginEmail" value={formData.email} onChange={handleInputChange}/>
@@ -153,7 +154,7 @@ function LOGIN_SIGNUP() {
                     <form className="sign-up__form" id="signUpForm" onSubmit={handleSignup}>
                       
                         <h1 className="form__title">Sign Up!</h1>
-                      
+                        {signupErrors && <span>{signupErrors}</span>}
                         <div className="input__group">
                             <label className="field">
                                 <input type="text" name="firstName" placeholder="Enter your first name..." id="signUpfirstName" value={formData.firstName} onChange={handleInputChange}/>
