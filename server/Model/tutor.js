@@ -23,11 +23,8 @@ const TutorSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    age: {
-        type: Number,
-        required: true
     }
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('tutor', TutorSchema);
