@@ -11,7 +11,29 @@ function LOGIN_SIGNUP() {
     const [SignupMessage, setSignupMessage] = useState("");
 
     const history = useHistory();
-  
+    
+    async function googleSuccess(res) {
+        console.log("Logged in with Google o Auth...");
+        const result = res?.profileObj;
+        const token = res?.tokenId;
+
+        try {
+            // dispatch login here
+            console.log("Result from google : ", result, "TOKEN from google: ", token);
+
+            history.push('/profile');
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
+    // function googleError() {
+    //     console.log("Google Sign In was unsuccessful. Try again later");
+    // }
+    const googleError = () => {
+        console.log("Google Sign In was unsuccessful. Try again later");
+    }
 
     function handleInputChange(e) {
         setFormData({...formData, [e.target.name]:e.target.value});
@@ -149,21 +171,22 @@ function LOGIN_SIGNUP() {
                         <button type="submit" className="submit-button" id="loginSubmitBtn">Sign in</button>
                                     
                         <div className="alternate-login">
-                            <div className="link">
+                            {/* <div className="link">
                                 <i className='bx bxl-google'></i>
                                 <span>Google</span>
-                            </div>
+                            </div> */}
                             <GoogleLogin
                                 clientId={`${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}`}
-                                buttonText="Login"
-                                // render={(renderProps) => (
-                                //     <Button className={classes.googleButton} color="primary" fullWidth onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} variant="contained">
-                                //         Google Sign In
-                                //     </Button>
-                                // )}
-                                // onSuccess={googleSuccess}
-                                // onFailure={googleError}
-                                cookiePolicy="single_host_origin"
+                                // buttonText="Login"
+                                render={renderProps => (
+                                    <div onClick={renderProps.onClick} disabled={renderProps.disabled} className="link">
+                                        <i className='bx bxl-google'></i>
+                                        <span>Google</span>
+                                    </div>
+                                )}
+                                onSuccess={googleSuccess}
+                                onFailure={googleError}
+                                cookiePolicy={"single_host_origin"}
                             />
                         </div>
                     </form>
