@@ -7,8 +7,10 @@ let imageUpload = multer({
         fileSize: 1024 * 1024 * 5
     },
     fileFilter: function (req, file, callback) {
-        var ext = path.extname(file.originalname);
-        if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+        // var ext = path.extname(file.originalname);
+        // if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') 
+        
+        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
             let newError = new Error("Only (.png .jpg .jpeg .gif )Images are allowed");
             newError.name = "MulterError";
             callback(newError, false);

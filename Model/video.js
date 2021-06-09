@@ -5,15 +5,19 @@ const videoSchema  = new mongoose.Schema ({
         type: String,
         required: true
     },
-    length: {
+    videoLength: {
         type: Number,
+        required: true
+    },
+    videoLink: {
+        type: String,
         required: true
     },
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
         default: null
     },
-    authorName: {
+    authorId: {
         type: mongoose.Schema.Types.ObjectId,
         default: null
     }

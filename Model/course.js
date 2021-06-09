@@ -50,6 +50,10 @@ const courseSchema = mongoose.Schema ({
         type: [mongoose.Schema.Types.ObjectId],
         ref: "students"
         
+    },
+    videos: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: null
     }
 
 });
