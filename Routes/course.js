@@ -6,8 +6,11 @@ const path = require('path')
 // const bcrypt = require('bcryptjs');
 const Course = require('../Model/course');
 const multer = require('multer');
+const bufferConversion = require('../Utils/bufferConversion');
+const { imageUpload, videoUpload } = require('../Utils/multer');
+const { cloudinary } = require('../Utils/clodinary');
 
-// ------ Thumbnail upload ------- //
+// ------ Thumbnail upload -----temporaily replaced by multe in Utils folder-- //
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/uploads')
@@ -50,11 +53,11 @@ let thumbnail = multer({ storage: storage, limits: { fileSize: 1 * 1024 * 1024 }
 // });
 //  ---------------------------------------------------------- // 
 
-Router.post('/add-course', auth, thumbnail.single("thumbnail"), async (req, res)=> {   // need to add AUTH
+Router.post('/add-course', auth, imageUpload.single('thumbnail'), async (req, res)=> {   // need to add AUTH
 
     try {
 
-        const data = req.body;
+        // const data = req.body;
 
         console.log("User details provided during AUTH: ", req.user);
 
@@ -62,7 +65,15 @@ Router.post('/add-course', auth, thumbnail.single("thumbnail"), async (req, res)
             ...req.body
         });
 
-        course_data.thumbnail = req.file.filename;
+        const convertedBuffer = await bufferConversion(req.file.originalname, req.file.buffer)
+        const uploadedImage = await cloudinary.uploader.upload(convertedBuffer, { resource_type: "image", upload_preset: 'cloudversity-dev',})
+        // const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+        //     upload_preset: 'cloudversity-dev',
+        // });
+
+        console.log("Cloudversity response: ", uploadedImage);
+
+        course_data.thumbnail = uploadedImage.secure_url;
         course_data.authorName = req.user.id;
 
         await course_data.save();
