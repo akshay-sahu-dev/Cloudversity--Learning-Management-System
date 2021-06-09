@@ -23,6 +23,10 @@ const TutorSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    createdCourses: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: null
     }
 
 }, { timestamps: true });
