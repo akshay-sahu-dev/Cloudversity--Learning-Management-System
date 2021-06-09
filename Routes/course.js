@@ -6,6 +6,7 @@ const path = require("path")
 // const bcrypt = require("bcryptjs");
 const Course = require("../Model/course");
 const Video = require("../Model/video");
+const Tutor = require("../Model/tutor");
 const multer = require("multer");
 const bufferConversion = require("../Utils/bufferConversion");
 const { imageUpload, videoUpload } = require("../Utils/multer");
@@ -33,32 +34,11 @@ const imageFilter = function (req, file, cb) {
 
 let thumbnail = multer({ storage: storage, limits: { fileSize: 1 * 1024 * 1024 }, fileFilter: imageFilter });
 
-// ------- Video-uplaod -------- //
-
-// let videoUpload = multer({
-//     storage: multer.diskStorage(),
-//     limits: {
-//         fileSize: 1024 * 1024 * 100
-//     },
-//     fileFilter: function (req, file, cb) {
-//         if (file.mimetype === "video/mp4") {
-//             cb(null, true)
-//         }
-//         else {
-//             //prevent the upload
-//             var newError = new Error("Incorrect file type, upload in .mp4 format");
-//             newError.name = "MulterError";
-//             cb(newError, false);
-//         }
-//     }
-// });
-//  ---------------------------------------------------------- // 
-
-Router.post("/add-course", auth, imageUpload.single("thumbnail"), async (req, res)=> {   // need to add AUTH
+//------------ COURSE AND VIDEO ROUTES BELOW ------------ //
+ 
+Router.post("/add-course", auth, imageUpload.single("thumbnail"), async (req, res)=> {   
 
     try {
-
-        // const data = req.body;
 
         console.log("User details provided during AUTH: ", req.user);
 
@@ -69,9 +49,6 @@ Router.post("/add-course", auth, imageUpload.single("thumbnail"), async (req, re
         const convertedBuffer = await bufferConversion(req.file.originalname, req.file.buffer);
 
         const uploadedImage = await cloudinary.uploader.upload(convertedBuffer, { resource_type: "image", upload_preset: "cloudversity-dev",});
-        // const uploadResponse = await cloudinary.uploader.upload(fileStr, {
-        //     upload_preset: "cloudversity-dev",
-        // });
 
         console.log("Cloudversity response: ", uploadedImage);
 
@@ -80,7 +57,12 @@ Router.post("/add-course", auth, imageUpload.single("thumbnail"), async (req, re
 
         await course_data.save();
 
-        res.status(200).send({message: "Congratulations...New course added!"});
+        const tutor = await Tutor.findById({_id:req.user.id});
+        tutor.createdCourses.push(course_data._id);
+
+        await tutor.save();
+
+        res.status(200).send({message: "Congratulations...New course added!", courseData: course_data});
         
     } catch (error) {
         console.log("Error while creating course: ", error);
@@ -105,7 +87,7 @@ Router.get("/all-courses", async(req, res) => {
 Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), async (req, res) => {
 
     try{
-        console.log("Course Id: ", req.params.courseId, "User: ", req.user)
+        // console.log("Course Id: ", req.params.courseId, "User: ", req.user)
         const video = new Video({
             ...req.body
         });
@@ -114,7 +96,7 @@ Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), as
 
         const uploadedVideo = await cloudinary.uploader.upload(convertedBuffer, { resource_type: "video", upload_preset: "cloudversity-dev", });
 
-        console.log("Uploaded video object: ", uploadedVideo)
+        // console.log("Uploaded video object: ", uploadedVideo)
         video.courseId = req.params.courseId;
         video.authorId = req.user.id;
 
@@ -123,7 +105,7 @@ Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), as
         } else {
             videoLength = uploadedVideo.duration
         };
-        console.log("Video Length : ", videoLength);
+        // console.log("Video Length : ", videoLength);
 
         video.videoLength = videoLength;
         video.videoLink = uploadedVideo.secure_url;
