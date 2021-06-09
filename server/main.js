@@ -33,8 +33,8 @@ app.use(session({
 //-------- Setting Up static folder --------- //
 app.use(express.static('public'))
 //-------- Setting up Body Parser --------- //
-app.use(express.json({limit:'50mb'}));
-app.use(express.urlencoded({limit:'50mb', extended:true}));
+app.use(express.json({limit:'150mb'}));
+app.use(express.urlencoded({limit:'150mb', extended:true}));
 //-------- Using CORS middleware --------- //
 app.use(cors());
 
