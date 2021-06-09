@@ -1,8 +1,9 @@
-import React, {useState, useContext, useReducer} from 'react';
+import React, {useState, useContext, useReducer, createContext} from 'react';
 import './login.css';
 import { useHistory } from 'react-router-dom';
 
 import { GoogleLogin } from 'react-google-login';
+// const googleUserData = createContext()
 
 function LOGIN_SIGNUP() {
 
@@ -20,6 +21,7 @@ function LOGIN_SIGNUP() {
         try {
             // dispatch login here
             console.log("Result from google : ", result, "TOKEN from google: ", token);
+
 
             history.push('/profile');
         } catch (error) {
