@@ -24,6 +24,10 @@ const StudentSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    enrolledCourses: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: null
+    }
 
 }, { timestamps: true });
 
