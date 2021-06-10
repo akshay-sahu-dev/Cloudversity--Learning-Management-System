@@ -1,0 +1,1 @@
+export default "I_AM_A_GOOGLE_USER";  // put this file in gitIgnore

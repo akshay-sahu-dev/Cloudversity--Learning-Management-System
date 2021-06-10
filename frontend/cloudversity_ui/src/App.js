@@ -1,6 +1,4 @@
-import LeftContainer from "./containers/LeftContainer";
-import MainContainer from "./containers/MainContainer";
-import RightContainer from "./containers/RightContainer";
+import { LeftContainer, MainContainer, RightContainer } from "./containers";
 import AuthContextProvider from "./contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 import "./App.scss";

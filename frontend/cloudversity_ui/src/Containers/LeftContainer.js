@@ -18,4 +18,4 @@ function LeftContainer() {
   );
 }
 
-export default LeftContainer;
+export { LeftContainer };
