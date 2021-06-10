@@ -26,6 +26,7 @@ const StudentSchema = mongoose.Schema({
     },
     enrolledCourses: {
         type: [mongoose.Schema.Types.ObjectId],
+        ref: "course",
         default: null
     }
 

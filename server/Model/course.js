@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const courseSchema = mongoose.Schema ({
+const courseSchema = new mongoose.Schema ({
     courseName: {
         type: String,
         required: true
@@ -8,7 +8,7 @@ const courseSchema = mongoose.Schema ({
     authorName: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "tutor",
-        defualt: null
+        default: null
     },
     price: {
         type: Number,
@@ -48,15 +48,18 @@ const courseSchema = mongoose.Schema ({
     },
     reviews: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: "students"
+        ref: "review",
+        default: null
         
     },
     videos: {
         type: [mongoose.Schema.Types.ObjectId],
+        ref: "video",
         default: null
     },
     enrolledStudents: {
         type: [mongoose.Schema.Types.ObjectId],
+        ref: "student",
         default: null
     }
 

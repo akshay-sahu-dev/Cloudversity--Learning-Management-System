@@ -26,6 +26,7 @@ const TutorSchema = mongoose.Schema({
     },
     createdCourses: {
         type: [mongoose.Schema.Types.ObjectId],
+        ref: "course",
         default: null
     }
 

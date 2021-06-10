@@ -15,10 +15,12 @@ const videoSchema  = new mongoose.Schema ({
     },
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "course",
         default: null
     },
     authorId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "tutor",
         default: null
     }
 }, {timeStamps: true});
