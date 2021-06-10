@@ -54,6 +54,10 @@ const courseSchema = mongoose.Schema ({
     videos: {
         type: [mongoose.Schema.Types.ObjectId],
         default: null
+    },
+    enrolledStudents: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: null
     }
 
 });

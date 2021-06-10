@@ -25,7 +25,7 @@ let imageUpload = multer({
 let videoUpload = multer({
     storage: multer.memoryStorage(),
     limits: {
-        fileSize: 1024 * 1024 * 100
+        fileSize: 1024 * 1024 * 150
     },
     fileFilter: function (req, file, callback) {
         if (file.mimetype === "video/mp4") {
