@@ -28,6 +28,11 @@ const StudentSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: "course",
         default: null
+    },
+    yourReviews: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "review",
+        default: null
     }
 
 }, { timestamps: true });

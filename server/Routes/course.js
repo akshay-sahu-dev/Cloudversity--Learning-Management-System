@@ -74,7 +74,11 @@ Router.post("/add-course", auth, imageUpload.single("thumbnail"), async (req, re
 
 Router.get("/all-courses", async(req, res) => {
     try {
-        const courseData = await Course.find();
+        const courseData = await Course.find()
+        .populate("videos", ["videoLink", "title", "videoLength"])
+        .populate("reviews", ["reviewBody", "rating"])   // chaining populate to get multiple fields populated
+            .exec();
+
         res.send({message: "Fetched successfully", data: courseData});
 
     } catch (error) {
@@ -127,7 +131,44 @@ Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), as
     }
 });
 
+Router.get("/course/:courseId", async (req, res) => {
+    try {
+        
+        const requestedCourse = await Course.findById({_id: req.params.courseId})
+        .populate("reviews", ["reviewBody", "rating"])
+        .populate("videos", ["videoLink", "title"])
+        .populate("authorName", ["firstName", "lastName"])
+        .exec();
 
+        res.status(200).send({requestedCourse});
+
+    } catch (error) {
+        console.log("Error occurred while fetching the course...", error);
+        res.status(500).send({ message: "Couldn't fetch the course", error: error.message });
+    }
+});
+
+Router.post("/enroll/:courseId", auth, (req, res) => {
+
+    try {
+        
+        const course = await findById({_id: req.params.courseId});
+        const student = await findById({_id: req.user.id});
+
+        course.enrolledStudents.push(req.user.id);
+        student.enrolledCourses.push(req.params.courseId);
+
+        await course.save();
+        await student.save();
+
+        res.status(200).send({message:"New course enrolled successfully", enrolledCourses: student.enrolledCourses});
+
+    } catch (error) {
+        console.log("Error occurred while enrolling...", error);
+        res.status(500).send({ message: "Couldn't enroll to the course", error: error.message });
+    }
+
+});
 
 
 

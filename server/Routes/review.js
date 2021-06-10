@@ -9,11 +9,11 @@ const Tutor = require("../Model/tutor");
 const Student = require("../Model/student");
 const Review = require("../Model/review");
 
-Router.post('/review/:courseId', auth, async(req, res) => {
+Router.post('/add-review/:courseId', auth, async(req, res) => {
     try {
         
-        const course = await Course.findById({_id:req.params.courseId});
-        
+        const course = await Course.findById({_id: req.params.courseId});
+        const student = await Student.findById({_id: req.user.id});
         const newReview = new Review({
             ...req.body
         });
@@ -24,7 +24,10 @@ Router.post('/review/:courseId', auth, async(req, res) => {
         await newReview.save();
 
         course.reviews.push(newReview._id);
+        student.yourReviews.push(newReview._id);
+
         await course.save();
+        await student.save();
 
         res.status(200).send({message: "Review posted successfully", newReview})
 
