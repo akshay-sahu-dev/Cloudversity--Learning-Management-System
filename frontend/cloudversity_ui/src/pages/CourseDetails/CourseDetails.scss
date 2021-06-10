@@ -1,0 +1,68 @@
+.details {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    height: 6rem;
+    background-color: brown;
+  }
+
+  &__content {
+    height: 100vh;
+    display: flex;
+    background-color: cadetblue;
+
+    &-left {
+      width: 65%;
+      //   height: 20rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      background-color: chartreuse;
+
+      &--video {
+        width: 100%;
+        height: 50%;
+        margin-bottom: 1rem;
+        background-color: crimson;
+      }
+
+      &--info {
+        width: 100%;
+        height: 50%;
+        background-color: darkkhaki;
+      }
+    }
+
+    &-right {
+      width: 35%;
+      //   height: 20rem;
+      padding: 1rem;
+      background-color: white;
+
+      &--videos {
+        width: 100%;
+        height: 50%;
+        overflow: hidden;
+        overflow-y: scroll;
+        background-color: white;
+
+        & .video {
+          width: 100%;
+          height: 5rem;
+          margin: 0.5rem 0;
+          padding: 1rem;
+          border-radius: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background-color: white;
+        }
+
+        & .active {
+          background-color: orangered;
+        }
+      }
+    }
+  }
+}
