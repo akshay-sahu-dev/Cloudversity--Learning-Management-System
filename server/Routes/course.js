@@ -148,12 +148,12 @@ Router.get("/course/:courseId", async (req, res) => {
     }
 });
 
-Router.post("/enroll/:courseId", auth, (req, res) => {
+Router.post("/enroll/:courseId", auth, async (req, res) => {
 
     try {
         
-        const course = await findById({_id: req.params.courseId});
-        const student = await findById({_id: req.user.id});
+        const course = await Course.findById({_id: req.params.courseId});
+        const student = await Student.findById({_id: req.user.id});
 
         course.enrolledStudents.push(req.user.id);
         student.enrolledCourses.push(req.params.courseId);
