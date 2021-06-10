@@ -1,5 +1,5 @@
 const multer = require("multer");
-const path = require('path');
+
 //Specify the storage engine
 let imageUpload = multer({
     storage: multer.memoryStorage(),
@@ -28,6 +28,7 @@ let videoUpload = multer({
         fileSize: 1024 * 1024 * 150
     },
     fileFilter: function (req, file, callback) {
+        
         if (file.mimetype === "video/mp4") {
             callback(null, true)
         }

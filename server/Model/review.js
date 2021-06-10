@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
-    reviewer: {
+    reviewerId: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: "Student",
         default: null
     },
-    reviewedCourse: {
+    courseId: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: "course",
         default: null
@@ -18,6 +18,10 @@ const reviewSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: true
+    },
+    likes :{
+        type: Number,
+        default: 0
     }
 }, {timeStamps: true});
 
