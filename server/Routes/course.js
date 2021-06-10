@@ -2,8 +2,7 @@ const express = require("express");
 const Router = express.Router();
 const auth = require("../Auth/auth");
 require("dotenv").config();
-const path = require("path")
-// const bcrypt = require("bcryptjs");
+const path = require("path");
 const Course = require("../Model/course");
 const Video = require("../Model/video");
 const Tutor = require("../Model/tutor");
@@ -96,7 +95,7 @@ Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), as
 
         const uploadedVideo = await cloudinary.uploader.upload(convertedBuffer, { resource_type: "video", upload_preset: "cloudversity-dev", });
 
-        // console.log("Uploaded video object: ", uploadedVideo)
+        console.log("Uploaded video object: ", uploadedVideo)
         video.courseId = req.params.courseId;
         video.authorId = req.user.id;
 
@@ -105,7 +104,7 @@ Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), as
         } else {
             videoLength = uploadedVideo.duration
         };
-        // console.log("Video Length : ", videoLength);
+        console.log("Video Length : ", videoLength);
 
         video.videoLength = videoLength;
         video.videoLink = uploadedVideo.secure_url;
