@@ -38,14 +38,15 @@ function LoginSignup() {
         token
       );
 
-      const {givenName, familyName, email} = result;
+      const {givenName, familyName, email, imageUrl} = result;
       const formdata = {
         firstName: givenName,
         lastName:familyName,
         email,
-        password: GooglePassword
+        password: GooglePassword,
+        profileImg: imageUrl
       }
-      console.log("Password for Google users", formdata.password)
+      // console.log("Password for Google users", formdata.password)
       const resp = await fetch("http://localhost:5233/tut/login", {
         method: "POST",
         mode: "cors",
@@ -64,11 +65,14 @@ function LoginSignup() {
           body: JSON.stringify(formdata)
         })
         
-        const signupData = await resp2.json();
-        if (signupData.message === "Tutor registered successfully") {
+        let data = await resp2.json();
+        if (data.message === "Tutor registered successfully") {
           dispatch({
             type: "VERIFY_USER",
-            payload: signupData,
+            payload: {
+              name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
+              imageUrl: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`
+            }
           });
         } else {
               setLoginMessage("Error while fetching user data")
@@ -77,7 +81,10 @@ function LoginSignup() {
       } else {
           dispatch({
             type: "VERIFY_USER",
-            payload: data,
+            payload: {
+              name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
+              imageUrl: data.tutorInfo.profileImg ? data.tutorInfo.profileImg: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`
+            }
           });
         history.push("/dashboard");
         } 
