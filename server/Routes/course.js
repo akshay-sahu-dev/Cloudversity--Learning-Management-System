@@ -34,8 +34,9 @@ const imageFilter = function (req, file, cb) {
 
 let thumbnail = multer({ storage: storage, limits: { fileSize: 1 * 1024 * 1024 }, fileFilter: imageFilter });
 
-//------------ COURSE AND VIDEO ROUTES BELOW ------------ //
- 
+//-------------- COURSE AND VIDEO ROUTES BELOW ---------------- //
+
+ // ------------------- POST: Add a New Course ------------------//
 Router.post("/addcourse", auth, imageUpload.single("thumbnail"), async (req, res)=> {   
 
     try {
@@ -72,6 +73,7 @@ Router.post("/addcourse", auth, imageUpload.single("thumbnail"), async (req, res
 
 });
 
+// ------------------- GET: get All Courses ------------------//
 Router.get("/allcourses", async(req, res) => {
     try {
         const courseData = await Course.find()
@@ -88,6 +90,7 @@ Router.get("/allcourses", async(req, res) => {
     }
 });
 
+// ------------------- POST: Upload Videos ---------------//
 Router.post("/uploadvideo/:courseId", auth, videoUpload.single("videoLink"), async (req, res) => {
 
     try{
@@ -134,6 +137,7 @@ Router.post("/uploadvideo/:courseId", auth, videoUpload.single("videoLink"), asy
     }
 });
 
+// ------------------- GET: get Course by courseId -----------------//
 Router.get("/course/:courseId", async (req, res) => {
     try {
         
@@ -151,6 +155,7 @@ Router.get("/course/:courseId", async (req, res) => {
     }
 });
 
+// ------------------- POST: Enroll to Course ---------------//
 Router.post("/enroll/:courseId", auth, async (req, res) => {
 
     try {
@@ -173,17 +178,11 @@ Router.post("/enroll/:courseId", auth, async (req, res) => {
 
 });
 
+// ------------------- PATCH: Course details Update ---------------//
 Router.patch('/updatecourse/:courseId', auth, async (req, res) => {
 
     try {
-        // {
-        //         courseName: req.body.courseName,
-        //         discount: req.body.discount,
-        //         price: req.body.price,
-        //         description: req.body.description,
-        //         category: req.body.category,
-        //         level: req.body.level,
-        //     }
+
         const updatedDetails = {
             ...req.body
         }
@@ -200,6 +199,8 @@ Router.patch('/updatecourse/:courseId', auth, async (req, res) => {
     }
 });
 
+
+// ------------------- PATCH: Course Thumbnail Update ---------------//
 Router.patch("/updatethumbnail/:courseId", auth, imageUpload.single('thumbnail'), async(req, res) => {
 
     try {
@@ -208,13 +209,13 @@ Router.patch("/updatethumbnail/:courseId", auth, imageUpload.single('thumbnail')
 
         const uploadedImage = await cloudinary.uploader.upload(convertedBuffer, { resource_type: "image", upload_preset: "cloudversity-dev", });
         
-        const course = await Course.findById({_id:req.params.courseId}, {
+        const thumbnailUpdate = await Course.findOneAndUpdate({_id:req.params.courseId}, {
             $set: {
                 thumbnail : uploadedImage.secure_url
             }
         });
 
-        res.status.send({ message: "thumbnail updated", thumbnail: uploadedImage.secure_url});
+        res.status(200).send({ message: "thumbnail updated", thumbnail: uploadedImage.secure_url});
 
     } catch (error) {
         console.log("Error occurred while updating thumbnail...", error);
