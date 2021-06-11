@@ -4,6 +4,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import GoogleLogin from "react-google-login";
 import "./LoginSignup.scss";
 import GooglePassword from "../../Googleusercreds/googleuserpassword"; //put this file in .gitignore
+import { AUTH } from "../../actionTypes";
+import * as api from "../../api";
 
 function LoginSignup() {
   const [formData, setFormData] = useState({
@@ -46,29 +48,17 @@ function LoginSignup() {
         password: GooglePassword,
         profileImg: imageUrl
       }
-      // console.log("Password for Google users", formdata.password)
-      const resp = await fetch("http://localhost:5233/tut/login", {
-        method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formdata),
-      });
 
-      const data = await resp.json();
-      console.log(data)
+
+      const {data} = await api.tutor_signIn(formdata);    // removed fetch call and using axios from api folder
+      console.log("Data from Tut Login(LoginSignup.js line: 60) ==> ",data);
       if (data.error === "Email not registered") {
-        console.log("Google: Email not registered")
-        const resp2 = await fetch("http://localhost:5233/tut/signup", {
-          method: "POST",
-          mode: "cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formdata)
-        })
+        // console.log("Google: Email not registered")
+        const { data } = await api.tutor_signUp(formdata);  // removed fetch call and using axios from api folder
         
-        let data = await resp2.json();
         if (data.message === "Tutor registered successfully") {
           dispatch({
-            type: "VERIFY_USER",
+            type: AUTH,
             payload: {
               name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
               imageUrl: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`
@@ -80,7 +70,7 @@ function LoginSignup() {
 
       } else {
           dispatch({
-            type: "VERIFY_USER",
+            type: AUTH,
             payload: {
               name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
               imageUrl: data.tutorInfo.profileImg ? data.tutorInfo.profileImg: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`
@@ -95,23 +85,17 @@ function LoginSignup() {
   };
 
   const googleError = () => {
-    setLoginMessage("Issue with Google login");
+    setLoginMessage("Unknown server issue with Google Login");
+    setSignupMessage("Unknown server issue with Google Login");
     console.log("Google Sign In was unsuccessful. Try again later");
   };
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // console.log(formData);
-    // console.log(input)
   }
 
-  //   console.log(
-  //     "OAUTH CLient ID ==> ",
-  //     process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
-  //   );
-
-  // ----------- Function for Sign In ------- /
-  function handleLoginSubmit(e) {
+  // ----------- Function for Sign In ---------- /
+  async function handleLoginSubmit(e) {
     e.preventDefault();
     const formdata = formData;
     console.log("Form data: ", formdata);
@@ -120,33 +104,30 @@ function LoginSignup() {
 // ==========================Write logic here
     // }
 
-    fetch("http://localhost:5233/tut/login", {
-      method: "POST",
-      mode: "cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formdata),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          console.log("Login failed...", data);
-          setLoginMessage(data.error);
-          return;
-        }
+    // fetch("http://localhost:5233/tut/login", {
+    //   method: "POST",
+    //   mode: "cors",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(formdata),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    const { data } = await api.tutor_signIn(formdata);
+    if (data.error) {
+      console.log("Login failed...", data);
+      setLoginMessage(data.error);
+      return;
+    }
         // console.log("Data pushed successfully, user logged in", data);
         dispatch({
-          type: "VERIFY_USER",
+          type: AUTH,
           payload: {
             name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
             imageUrl: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`,
           },
         });
         history.push("/dashboard");
-      })
-      .catch((err) => {
-        console.log("Error in login", err);
-      });
-  }
+    }
 
   // ----------- Function for Sign Up ------- /
 
