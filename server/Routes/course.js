@@ -173,6 +173,53 @@ Router.post("/enroll/:courseId", auth, async (req, res) => {
 
 });
 
+Router.patch('/updatecourse/:courseId', auth, async (req, res) => {
 
+    try {
+        // {
+        //         courseName: req.body.courseName,
+        //         discount: req.body.discount,
+        //         price: req.body.price,
+        //         description: req.body.description,
+        //         category: req.body.category,
+        //         level: req.body.level,
+        //     }
+        const updatedDetails = {
+            ...req.body
+        }
+        const updatedCourse = await Course.findOneAndUpdate({_id: req.params.courseId}, {
+            $set: updatedDetails
+        });
+
+        res.status(200).send({ message: "Course details updated successfully!", updatedDetails})
+
+
+    } catch (error) {
+        console.log("Error occurred while updating...", error);
+        res.status(500).send({ message: "Couldn't update the course", error: error.message });
+    }
+});
+
+Router.patch("/updatethumbnail/:courseId", auth, imageUpload.single('thumbnail'), async(req, res) => {
+
+    try {
+
+        const convertedBuffer = await bufferConversion(req.file.originalname, req.file.buffer);
+
+        const uploadedImage = await cloudinary.uploader.upload(convertedBuffer, { resource_type: "image", upload_preset: "cloudversity-dev", });
+        
+        const course = await Course.findById({_id:req.params.courseId}, {
+            $set: {
+                thumbnail : uploadedImage.secure_url
+            }
+        });
+
+        res.status.send({ message: "thumbnail updated", thumbnail: uploadedImage.secure_url});
+
+    } catch (error) {
+        console.log("Error occurred while updating thumbnail...", error);
+        res.status(500).send({ message: "Couldn't update the thumbnail", error: error.message });
+    }
+});
 
 module.exports = Router;
