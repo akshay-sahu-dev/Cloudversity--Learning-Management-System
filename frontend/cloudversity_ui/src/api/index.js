@@ -27,3 +27,6 @@ export const student_signIn = (formData) => API.post('/stu/login', formData);
 export const student_signUp = (formData) => API.post('/stu/signup', formData);
 export const tutor_signIn = (formData) => API.post('/tut/login', formData);
 export const tutor_signUp = (formData) => API.post('/tut/signup', formData);
+
+export const signIn = (formData) => API.post('/stu/login', formData);
+export const signUp = (formData) => API.post('/tut/signup', formData);

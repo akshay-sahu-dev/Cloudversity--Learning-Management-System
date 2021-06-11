@@ -6,21 +6,23 @@ const authReducer = (state, action) => {
   switch (action.type) {
 
     case AUTH:
-
+      console.log("Inside Auth reducer")
       localStorage.setItem('profile', JSON.stringify({ ...action?.payload }));
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.data,
       };
 
       case LOGOUT:
 
-      localStorage.clear();
+      localStorage.setItem('profile', null );
       return { user: {} };
 
     default:
       return state;
   }
 };
+
+
 
 export default authReducer;

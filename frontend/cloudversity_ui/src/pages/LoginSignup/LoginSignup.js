@@ -6,6 +6,7 @@ import "./LoginSignup.scss";
 import GooglePassword from "../../Googleusercreds/googleuserpassword"; //put this file in .gitignore
 import { AUTH } from "../../actionTypes";
 import * as api from "../../api";
+import { signup, signin } from "../../actions/auth";
 
 function LoginSignup() {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ function LoginSignup() {
 
   });
 
-  const [isTutor, setIsTutor] = useState(false);
+  const [isTutor, setIsTutor] = useState(true);
   const [LoginMessage, setLoginMessage] = useState("");
   const [SignupMessage, setSignupMessage] = useState("");
 
@@ -100,25 +101,35 @@ function LoginSignup() {
     const formdata = formData;
     console.log("Form data: ", formdata);
 
-    // if (isTutor) {============
-// ==========================Write logic here
-    // }
-    const { data } = await api.tutor_signIn(formdata);
-    if (data.error) {
-      console.log("Login failed...", data);
-      setLoginMessage(data.error);
-      return;
-    }
-        // console.log("Data pushed successfully, user logged in", data);
-    dispatch({
-      type: AUTH,
-      payload: {
-        name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
-        imageUrl: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`,
+    if (isTutor) {
+      const { data } = await api.tutor_signIn(formdata);
+      if (data.error) {
+        console.log("Login failed...", data);
+        setLoginMessage(data.error);
+        return;
       }
-    });
+        const {message, ...payload} = data;
+        dispatch({
+          type: AUTH,
+          payload
+        });
         history.push("/dashboard");
-  }
+
+    } else {
+      const { data } = await api.student_signIn(formdata);
+      if (data.error) {
+        console.log("Login failed...", data);
+        setLoginMessage(data.error);
+        return;
+      }
+      const { message, ...payload } = data;
+      dispatch({
+        type: AUTH,
+        payload
+      });
+      history.push("/dashboard");
+    }
+    } 
 
   // ----------- Function for Sign Up ------- /
 

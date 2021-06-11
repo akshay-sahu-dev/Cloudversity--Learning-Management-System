@@ -9,7 +9,14 @@ import { AuthContext } from "../../contexts/AuthContext";
 import "./Dashboard.scss";
 
 function Dashboard() {
+  let name;
+  let dp;
   const { user } = useContext(AuthContext);
+
+  if (user) {
+     name = `${user.user.firstName} ${user.user.lastName}`;
+     dp = user.user.profileImg ? user.user.profileImg : `https://ui-avatars.com/api/?name=${user.user.firstName}`
+  }
 
   return user ? (
     <div className="dashboard">
@@ -17,11 +24,11 @@ function Dashboard() {
         <div className="dashboard__welcome-greet">
           <img
             className="dashboard__welcome-greet--userpic"
-            src={user.user.imageUrl}
+            src={dp}
             alt="user-pic"
           />
           <div className="dashboard__welcome-greet--username">
-            Welcome {user.user.name}
+            Welcome {name}
           </div>
         </div>
         <img

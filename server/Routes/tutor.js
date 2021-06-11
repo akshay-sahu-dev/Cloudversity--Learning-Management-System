@@ -24,9 +24,11 @@ Router.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(tutorData.password, 10);
         tutor.password = hashedPassword;
 
+        const token = await jwt.sign({ id: tutor._id, email: tutor.email }, process.env.JWT_SECRET, { expiresIn: "6h" });
+
         await tutor.save();
 
-        res.send({ message: "Tutor registered successfully", tutorInfo: tutor });
+        res.send({ message: "Tutor registered successfully", data: tutor, token });
 
     } catch (error) {
 
@@ -57,13 +59,13 @@ Router.post('/login', async (req, res) => {
         }
 
         // --- Generating token and saving it in cookie --- /
-        const token = await jwt.sign({ id: tutor._id, email: tutor.email }, process.env.JWT_SECRET);
+        const token = await jwt.sign({ id: tutor._id, email: tutor.email }, process.env.JWT_SECRET, {expiresIn:"6h"});
         res.cookie('token', token, { httpOnly: true, maxAge: 1000000 });
 
         // console.log("Token from Teacher Login Route ==> ", token);
         // console.log("Cookie from Teacher Login Route ==> ", req.cookies);
 
-        res.status(200).send({ message: "Tutor successfully logged in", tutorInfo: tutor, token })
+        res.status(200).send({ message: "Tutor successfully logged in", data: tutor, token })
 
     } catch (error) {
 

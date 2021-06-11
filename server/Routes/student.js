@@ -23,9 +23,10 @@ Router.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(studentData.password, 10);
         student.password = hashedPassword;
 
+        const token = await jwt.sign({ id: student._id, email: student.email }, process.env.JWT_SECRET, { expiresIn: "6h" });
         await student.save();
 
-        res.send({ message: "Student registered successfully", studentInfo  : student});
+        res.send({ message: "Student registered successfully", data: student, token});
 
     } catch (error) {
 
@@ -45,7 +46,7 @@ Router.post('/login', async (req, res) => {
         console.log("Student obj from student Login: ", student);
 
         if (!student) {
-            return res.status(404).send({message: "This email is not registered with us, please signup first!", error: "Email not registered"});
+            return res.send({message: "This email is not registered with us, please signup first!", error: "Email not registered"});
         } 
 
         // --- Validatig password using bcryptjs --- /
@@ -56,10 +57,10 @@ Router.post('/login', async (req, res) => {
         }
 
         // --- Generating token and saving it in cookie --- /
-        const token = await jwt.sign({ id: student._id, email: student.email }, process.env.JWT_SECRET);
+        const token = await jwt.sign({ id: student._id, email: student.email }, process.env.JWT_SECRET, {expiresIn: "6h"});
         res.cookie('token', token, { httpOnly: true, maxAge: 1000000 });
 
-        res.status(200).send({message: "Student successfully logged in", studentInfo:student, token})
+        res.status(200).send({message: "Student successfully logged in", data :student, token})
         
     } catch (error) {
 
