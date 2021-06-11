@@ -90,12 +90,12 @@ function LoginSignup() {
     console.log("Google Sign In was unsuccessful. Try again later");
   };
 
-  function handleInputChange(e) {
+  const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
   // ----------- Function for Sign In ---------- /
-  async function handleLoginSubmit(e) {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const formdata = formData;
     console.log("Form data: ", formdata);
@@ -103,15 +103,6 @@ function LoginSignup() {
     // if (isTutor) {============
 // ==========================Write logic here
     // }
-
-    // fetch("http://localhost:5233/tut/login", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(formdata),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
     const { data } = await api.tutor_signIn(formdata);
     if (data.error) {
       console.log("Login failed...", data);
@@ -119,19 +110,19 @@ function LoginSignup() {
       return;
     }
         // console.log("Data pushed successfully, user logged in", data);
-        dispatch({
-          type: AUTH,
-          payload: {
-            name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
-            imageUrl: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`,
-          },
-        });
+    dispatch({
+      type: AUTH,
+      payload: {
+        name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
+        imageUrl: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`,
+      }
+    });
         history.push("/dashboard");
-    }
+  }
 
   // ----------- Function for Sign Up ------- /
 
-  function handleSignup(e) {
+  const handleSignup = async (e) => {
     e.preventDefault();
     const formdata = formData;
 
@@ -140,37 +131,35 @@ function LoginSignup() {
       return;
     }
 
-    fetch("http://localhost:5233/tut/signup", {
-      method: "POST",
-      mode: "cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formdata),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          console.log("Signup failed...", data);
-          setSignupMessage(data.error);
-          return;
-        }
-        console.log("Data pushed successfully, user signed up", data);
-        dispatch({
-          type: "VERIFY_USER",
-          payload: {
-            name: `${data.data.firstName} ${data.data.lastName}`,
-            imageUrl: `https://ui-avatars.com/api/?name=${data.data.firstName}`,
-          },
-        });
-        setSignupMessage("Successfully Signed up! CLick on Login button");
-        history.push("/dashboard");
-      })
-      .catch((err) => {
-        console.log("Error in login", err);
-        setSignupMessage("Unknown error occurred...");
-      });
-  }
+    try {
 
-  function showHidePassword(e) {
+      const { data } = await api.tutor_signUp(formdata);
+      if (data.error) {
+        console.log("Signup failed...", data);
+        setSignupMessage(data.error);
+        return;
+      }
+      console.log("Data pushed successfully, user signed up", data);
+      dispatch({
+        type: AUTH,
+        payload: {
+          name: `${data.data.firstName} ${data.data.lastName}`,
+          imageUrl: `https://ui-avatars.com/api/?name=${data.data.firstName}`,
+        },
+      });
+      setSignupMessage("Successfully Signed up! CLick on Login button");
+
+      setTimeout(()=>{
+        history.push("/dashboard");
+      }, 1000);  // Redirect user to dashboard after 1s
+
+    } catch (error) {
+        console.log("Error in login", error);
+        setSignupMessage("Unknown error occurred...");
+      }
+    }
+
+  const showHidePassword = (e) => {
     // console.log("show hide icon's parent's parent: ",e.target.parentElement.parentElement)
     if (e.target.className === "bx bx-hide") {
       e.target.className = "bx bx-show";
@@ -185,16 +174,13 @@ function LoginSignup() {
     }
   }
 
-  function changeFormMode(e) {
+  const changeFormMode = (e) => {
     // console.log(e.target.id);
     const wrapper__Area = document.querySelector("#wrapper_Area");
-    // console.log("Wrapper area: ", wrapper__Area);
     if (e.target.id === "aside_signUp_Btn") {
-      //   console.log("aside_signup_btn clicked");
       wrapper__Area.classList.add("sign-up__Mode-active");
     }
     if (e.target.id === "aside_signIn_Btn") {
-      //   console.log("Sign in btn clicked");
       wrapper__Area.classList.remove("sign-up__Mode-active");
     }
   }
