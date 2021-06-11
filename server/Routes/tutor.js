@@ -26,7 +26,7 @@ Router.post('/signup', async (req, res) => {
 
         await tutor.save();
 
-        res.send({ message: "Tutor registered successfully", data: tutor });
+        res.send({ message: "Tutor registered successfully", tutorInfo: tutor });
 
     } catch (error) {
 
@@ -63,7 +63,7 @@ Router.post('/login', async (req, res) => {
         // console.log("Token from Teacher Login Route ==> ", token);
         // console.log("Cookie from Teacher Login Route ==> ", req.cookies);
 
-        res.status(200).send({ message: "Tutor successfully logged in", data: tutor, token })
+        res.status(200).send({ message: "Tutor successfully logged in", tutorInfo: tutor, token })
 
     } catch (error) {
 
