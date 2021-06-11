@@ -46,14 +46,14 @@ Router.post('/login', async (req, res) => {
         console.log("Tutor obj from tutor Login: ", tutor);
 
         if (!tutor) {
-            return res.status(404).send({ message: "This email is not registered with us, please signup first!", error: "Email not registered" });
+            return res.send({ message: "This email is not registered with us, please signup first!", error: "Email not registered" });
         }
 
         // --- Validatig password using bcryptjs --- /
         const isValidPassword = await bcrypt.compare(req.body.password, tutor.password);
 
         if (!isValidPassword) {
-            return res.status(400).send({ message: "Invalid Password", error: "Invalid Password" });
+            return res.send({ message: "Invalid Password", error: "Invalid Password" });
         }
 
         // --- Generating token and saving it in cookie --- /
