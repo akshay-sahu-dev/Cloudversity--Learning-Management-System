@@ -9,7 +9,7 @@ const Tutor = require("../Model/tutor");
 const Student = require("../Model/student");
 const Review = require("../Model/review");
 
-Router.post('/add-review/:courseId', auth, async(req, res) => {
+Router.post('/addreview/:courseId', auth, async(req, res) => {
     try {
         
         const course = await Course.findById({_id: req.params.courseId});

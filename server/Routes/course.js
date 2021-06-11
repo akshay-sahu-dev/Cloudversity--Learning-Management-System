@@ -36,7 +36,7 @@ let thumbnail = multer({ storage: storage, limits: { fileSize: 1 * 1024 * 1024 }
 
 //------------ COURSE AND VIDEO ROUTES BELOW ------------ //
  
-Router.post("/add-course", auth, imageUpload.single("thumbnail"), async (req, res)=> {   
+Router.post("/addcourse", auth, imageUpload.single("thumbnail"), async (req, res)=> {   
 
     try {
 
@@ -72,7 +72,7 @@ Router.post("/add-course", auth, imageUpload.single("thumbnail"), async (req, re
 
 });
 
-Router.get("/all-courses", async(req, res) => {
+Router.get("/allcourses", async(req, res) => {
     try {
         const courseData = await Course.find()
         .populate("videos", ["videoLink", "title", "videoLength"])
@@ -88,7 +88,7 @@ Router.get("/all-courses", async(req, res) => {
     }
 });
 
-Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), async (req, res) => {
+Router.post("/uploadvideo/:courseId", auth, videoUpload.single("videoLink"), async (req, res) => {
 
     try{
         // console.log("Course Id: ", req.params.courseId, "User: ", req.user)
@@ -97,6 +97,8 @@ Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), as
         });
 
         const convertedBuffer = await bufferConversion(req.file.originalname, req.file.buffer);
+        // console.log("req.file.buffer: ",req.file.buffer);
+        // console.log("convertedBuffer: ", convertedBuffer);  Don't ever uncomment this :-P
 
         const uploadedVideo = await cloudinary.uploader.upload(convertedBuffer, { resource_type: "video", upload_preset: "cloudversity-dev", });
 
@@ -113,6 +115,7 @@ Router.post("/upload-video/:courseId", auth, videoUpload.single("videoLink"), as
 
         video.videoLength = videoLength;
         video.videoLink = uploadedVideo.secure_url;
+        video.publicId = uploadedVideo.public_id;   // NEW: added public Id to video Schema
 
         await video.save();
 
