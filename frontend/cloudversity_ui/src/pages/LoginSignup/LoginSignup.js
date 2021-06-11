@@ -281,13 +281,9 @@ function LoginSignup() {
             </button>
 
             <div className="alternate-login">
-              {/* <div className="link">
-                                <i className='bx bxl-google'></i>
-                                <span>Google</span>
-                            </div> */}
+
               <GoogleLogin
                 clientId={`${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}`}
-                // buttonText="Login"
                 render={(renderProps) => (
                   <div
                     onClick={renderProps.onClick}
@@ -408,10 +404,22 @@ function LoginSignup() {
             </button>
 
             <div className="alternate-login">
-              <div className="link">
-                <i className="bx bxl-google"></i>
-                <span>Google</span>
-              </div>
+              <GoogleLogin
+                clientId={`${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}`}
+                render={(renderProps) => (
+                  <div
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    className="link"
+                  >
+                    <i className="bx bxl-google"></i>
+                    <span>Google</span>
+                  </div>
+                )}
+                onSuccess={googleSuccess}
+                onFailure={googleError}
+                cookiePolicy={"single_host_origin"}
+              />
             </div>
           </form>
         </div>
