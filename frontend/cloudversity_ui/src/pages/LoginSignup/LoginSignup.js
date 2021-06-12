@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
 import GoogleLogin from "react-google-login";
@@ -6,7 +6,7 @@ import "./LoginSignup.scss";
 import GooglePassword from "../../Googleusercreds/googleuserpassword"; //put this file in .gitignore
 import { AUTH } from "../../actionTypes";
 import * as api from "../../api";
-import { signup, signin } from "../../actions/auth";
+
 
 function LoginSignup() {
   const [formData, setFormData] = useState({
@@ -21,12 +21,22 @@ function LoginSignup() {
   const [isTutor, setIsTutor] = useState(true);
   const [LoginMessage, setLoginMessage] = useState("");
   const [SignupMessage, setSignupMessage] = useState("");
-
+  const [func, setFunc] = useState({});
   const history = useHistory();
   const { user, dispatch } = useContext(AuthContext);
-  //   if (user) {
-  //     history.push("/dashboard");
-  //   }
+ console.log("User from Auth context (Login Page): ", user);
+  useEffect(() => {
+    if (isTutor) {
+
+      setFunc({ login: api.tutor_signIn, signup: api.tutor_signUp });
+
+    } else {
+      setFunc({ login: api.student_signIn, signup: api.student_signUp });
+    }
+    
+  }, [isTutor, user]);
+
+  
 
   const googleSuccess = async (res) => {
     console.log("Logged in with Google o Auth...");
@@ -41,47 +51,37 @@ function LoginSignup() {
         token
       );
 
-      const {givenName, familyName, email, imageUrl} = result;
+      const { givenName, familyName, email, imageUrl } = result;
       const formdata = {
         firstName: givenName,
-        lastName:familyName,
+        lastName: familyName,
         email,
         password: GooglePassword,
         profileImg: imageUrl
       }
 
-
-      const {data} = await api.tutor_signIn(formdata);    // removed fetch call and using axios from api folder
-      console.log("Data from Tut Login(LoginSignup.js line: 60) ==> ",data);
+      const { data } = await func.login(formdata);    // removed fetch call and using axios from api folder
+      console.log("Data from Tut Login(LoginSignup.js line: 60) ==> ", data);
       if (data.error === "Email not registered") {
-        // console.log("Google: Email not registered")
-        const { data } = await api.tutor_signUp(formdata);  // removed fetch call and using axios from api folder
-        
-        if (data.message === "Tutor registered successfully") {
-          dispatch({
-            type: AUTH,
-            payload: {
-              name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
-              imageUrl: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`
-            }
-          });
+
+        const { data } = await func.signup(formdata);
+
+        if (data.message === "Tutor registered successfully" || data.message === "Student registered successfully") {
+
+          const {message, ...payload} = data;
+          dispatch({type: AUTH, payload });
         } else {
-              setLoginMessage("Error while fetching user data")
+          setLoginMessage(data.error)
         }
 
       } else {
-          dispatch({
-            type: AUTH,
-            payload: {
-              name: `${data.tutorInfo.firstName} ${data.tutorInfo.lastName}`,
-              imageUrl: data.tutorInfo.profileImg ? data.tutorInfo.profileImg: `https://ui-avatars.com/api/?name=${data.tutorInfo.firstName}`
-            }
-          });
+        const { message, ...payload } = data;
+        dispatch({ type: AUTH, payload });
         history.push("/dashboard");
-        } 
+      }
     } catch (error) {
-      setLoginMessage("Error in login")
-      console.log(error);
+      setLoginMessage("Google Login wasn't sucessful");
+      console.log("Error during google login: ",error);
     }
   };
 
@@ -196,7 +196,7 @@ function LoginSignup() {
     }
   }
 
-  return !user ? (
+  return !user?.user ? (
     <div>
       <div className="wrapper__area" id="wrapper_Area">
         <div className="forms__area">

@@ -2,10 +2,10 @@ import axios from 'axios';
 
 // Uncomment to run in deployed server
 
-// const API = axios.create({ baseURL: 'https://cloudversity-api-server.herokuapp.com/' });
+const API = axios.create({ baseURL: 'https://cloudversity-api-server.herokuapp.com/' });
 
 // To run in local server
-const API = axios.create({ baseURL: 'http://localhost:5233' });
+// const API = axios.create({ baseURL: 'http://localhost:5233' });
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {

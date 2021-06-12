@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Redirect } from "react-router";
+import React, { useState, useEffect, useContext } from "react";
+import { Redirect, useLocation } from "react-router-dom";
 import prev from "../../assets/images/prev.png";
 import next from "../../assets/images/next.png";
 import bell from "../../assets/images/bell.png";
@@ -11,12 +11,26 @@ import "./Dashboard.scss";
 function Dashboard() {
   let name;
   let dp;
-  const { user } = useContext(AuthContext);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
-  if (user) {
-     name = `${user.user.firstName} ${user.user.lastName}`;
-     dp = user.user.profileImg ? user.user.profileImg : `https://ui-avatars.com/api/?name=${user.user.firstName}`
-  }
+  // const [name, setName] = useState("");
+  // const [dp, setDp] = useState("");
+
+//  useEffect(() => {
+//    if (user) {
+//      setName(`${user.data.firstName} ${user.data.lastName}`);
+//      setDp(user.data.profileImg ? user.data.profileImg : `https://ui-avatars.com/api/?name=${user.data.firstName}`);
+   
+//    }
+//  }, []);
+
+  console.log("User from Localstorage:", user);
+
+   if (user) {
+     name = `${user.data.firstName} ${user.data.lastName}`;
+     dp = user.data.profileImg ? user.data.profileImg : `https://ui-avatars.com/api/?name=${user.data.firstName}`;
+  
+   }
 
   return user ? (
     <div className="dashboard">

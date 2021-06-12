@@ -1,3 +1,5 @@
+// Tried Asynchronus calls to imitate redux thunk behaviour, but useContext/useReducer doesn't support that perhaps
+
 import { AUTH } from '../actionTypes';
 import * as api from '../api/index.js';
 
