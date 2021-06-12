@@ -136,7 +136,7 @@ function LoginSignup() {
         type: AUTH,
         payload
       });
-      setSignupMessage("Successfully Signed up! CLick on Login button");
+      // setSignupMessage("Successfully Signed up! CLick on Login button");
 
       setTimeout(()=>{
         history.push("/dashboard");
