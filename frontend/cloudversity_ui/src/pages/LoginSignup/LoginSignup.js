@@ -62,7 +62,7 @@ function LoginSignup() {
 
       const { data } = await func.login(formdata);    // removed fetch call and using axios from api folder
       console.log("Data from Tut Login(LoginSignup.js line: 60) ==> ", data);
-      if (data.error === "Email not registered") {
+      if (data?.error === "Email not registered") {
 
         const { data } = await func.signup(formdata);
 
@@ -99,38 +99,18 @@ function LoginSignup() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const formdata = formData;
-    console.log("Form data: ", formdata);
-
-    if (isTutor) {
-      const { data } = await api.tutor_signIn(formdata);
+    // console.log("Form data: ", formdata);
+      const { data } = await func.login(formdata);
       if (data.error) {
         console.log("Login failed...", data);
         setLoginMessage(data.error);
         return;
       }
         const {message, ...payload} = data;
-        dispatch({
-          type: AUTH,
-          payload
-        });
+        dispatch({ type: AUTH, payload });
         history.push("/dashboard");
-
-    } else {
-      const { data } = await api.student_signIn(formdata);
-      if (data.error) {
-        console.log("Login failed...", data);
-        setLoginMessage(data.error);
-        return;
-      }
-      const { message, ...payload } = data;
-      dispatch({
-        type: AUTH,
-        payload
-      });
-      history.push("/dashboard");
-    }
     } 
-
+    
   // ----------- Function for Sign Up ------- /
 
   const handleSignup = async (e) => {
@@ -144,19 +124,17 @@ function LoginSignup() {
 
     try {
 
-      const { data } = await api.tutor_signUp(formdata);
+      const { data } = await func.signup(formdata);
       if (data.error) {
         console.log("Signup failed...", data);
         setSignupMessage(data.error);
         return;
       }
       console.log("Data pushed successfully, user signed up", data);
+      const {message, ...payload} = data;
       dispatch({
         type: AUTH,
-        payload: {
-          name: `${data.data.firstName} ${data.data.lastName}`,
-          imageUrl: `https://ui-avatars.com/api/?name=${data.data.firstName}`,
-        },
+        payload
       });
       setSignupMessage("Successfully Signed up! CLick on Login button");
 

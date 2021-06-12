@@ -42,6 +42,4 @@ let videoUpload = multer({
 });
 
 
-
-
 module.exports = {videoUpload, imageUpload}
