@@ -5,7 +5,7 @@ const authReducer = (state = { user: null }, action) => {
   switch (action.type) {
 
     case AUTH:
-      console.log("Inside Auth reducer")
+      // console.log("Inside Auth reducer")
       localStorage.setItem('profile', JSON.stringify({ ...action?.payload }));
       return {
         ...state,
