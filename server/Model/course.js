@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Review = require("./review");
 
 const courseSchema = new mongoose.Schema ({
     courseName: {
@@ -32,15 +33,14 @@ const courseSchema = new mongoose.Schema ({
     },
     discount: {
         type: Number,
-        defualt: 0
+        default: 0
     },
-    total_subscriptions: {
+    totalSubscriptions: {
         type: Number,
-        defualt: 0
+        default: 0
     },
-    course_duration: {
+    courseDuration: {
         type: Number,
-        required: true
     },
     level: {
         type: String,
@@ -61,8 +61,18 @@ const courseSchema = new mongoose.Schema ({
         type: [mongoose.Schema.Types.ObjectId],
         ref: "student",
         default: null
+    },
+    wishlistedBy: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "student",
+        default: null
     }
 
+});
+
+courseSchema.pre('validate', async function (next) {
+    this.totalSubscriptions = this.enrolledStudents.length;
+    next(); 
 });
 
 module.exports = mongoose.model("course", courseSchema);

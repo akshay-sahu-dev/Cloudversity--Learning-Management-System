@@ -28,9 +28,32 @@ const TutorSchema = mongoose.Schema({
         type: String,
         default: null
     },
+    profileInfo: {
+        contactNo: {
+            type: Number,
+            default:null
+        },
+        aboutMe: {
+            type: String,
+            default: "Tell us about yourself"
+        },
+        occupation: {
+            type: String,
+            default:"tell us what do you do?"
+        },
+        bankAccount: {
+            type: Number,
+            default: null
+        },
+    },
     createdCourses: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: "course",
+        default: null
+    },
+    wishlistedBy: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "student",
         default: null
     }
 

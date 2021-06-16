@@ -13,10 +13,13 @@ let imageUpload = multer({
         if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)){
             let newError = new Error("Only (.png .jpg .jpeg .gif )Images are allowed");
             newError.name = "MulterError";
+            console.log("Error: Couldn't pass multer")
             callback(newError, false);
             return
         };
+        console.log("Passed through multer")
         callback(null, true);
+        
        
     }
 });
@@ -40,6 +43,8 @@ let videoUpload = multer({
         }
     }
 });
+
+
 
 
 module.exports = {videoUpload, imageUpload}
