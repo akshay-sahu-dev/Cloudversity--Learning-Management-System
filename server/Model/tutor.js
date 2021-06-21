@@ -51,11 +51,11 @@ const TutorSchema = mongoose.Schema({
         ref: "course",
         default: null
     },
-    wishlistedBy: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: "student",
-        default: null
-    }
+    totalEarnings: {
+        type: Number,
+        default: 0
+    },
+
 
 }, { timestamps: true });
 

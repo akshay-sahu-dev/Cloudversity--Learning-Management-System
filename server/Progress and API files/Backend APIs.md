@@ -9,11 +9,12 @@
 **Student Login** ==> POST: "/stu/login"
 **Student Signup** ==> POST: "/stu/signup"
 **Get all students** ==> GET: "/stu/allstudents"
-**Add to wishlist** ==> POST: "/addtowishlist/:courseId"
-**Remove from wishlist** ==> DELETE: "/removefromwishlist/:courseId"
-**Add to cart** ==> POST: "/addtocart/:courseId"
-**Remove from cart** ==> PATCH: "/removefromcart/:courseId"
-**Latest viewed course** ==> POST: "/latestcourse/:courseId"
+**Add to wishlist** ==> POST: "stu/addtowishlist/:courseId"
+**Remove from wishlist** ==> DELETE: "stu/removefromwishlist/:courseId"
+**Add a course to cart** ==> POST: "stu/addtocart/:courseId"
+**To Remove from cart** ==> PATCH: "stu/removefromcart/:courseId"
+**Latest viewed course** ==> POST: "stu/latestcourse/:courseId"
+**to get a single Student** ==> GET: "stu/:studentId"
 
 ## Tutor
 
@@ -23,23 +24,26 @@
 
 ## Course
 
-**To get All Courses** ==> GET: "/allcourses"
-**To get single course** ==> GET: "/courses/:courseId"
+**To Get All Courses** ==> GET: "/allcourses"
+**To Get single course** ==> GET: "/courses/:courseId"
 **To Add a course** ==> POST: "/addcourse"
-**To add a course video** ==> POST: "/uploadvideo/:courseId"
+**To Add a course video** ==> POST: "/uploadvideo/:courseId"
 **To Enroll to a course** ==> POST: "/enroll/:courseId"
 **To Update a course** ==> PATCH: "/updatecourse/:courseId"
-**To update thumbnail** ==> PATCH: "/updatethumbnail/:courseId"
-**To delete a video** ==> DELETE: "/deletevideo/:videoId"
+**To Update thumbnail** ==> PATCH: "/updatethumbnail/:courseId"
+**To Delete a video** ==> DELETE: "/deletevideo/:videoId"
+**to Apply discount** ==> PATCH: "/applydiscount/:courseId"
+**to Delete a course** ==> DELETE: "/deletecourse/:courseId"
+**course Payment route** ==> POST: "/payment"
 
 ## Reviews
 
-**To add a review** ==> POST: "/addreview/:courseId"
-**To update a review** ==> PATCH: "/editreview/:reviewId"
-**To delete a review** ==> DELETE: "/deletereview/:reviewId"
-**To fetch all review of a course** ==> GET: "/allreviews/:courseId"
+**To Add a review** ==> POST: "/addreview/:courseId"
+**To Update a review** ==> PATCH: "/editreview/:reviewId"
+**To Delete a review** ==> DELETE: "/deletereview/:reviewId"
+**To Fetch all review of a course** ==> GET: "/allreviews/:courseId"
 
 ## Profile
 
-**Update profile info** ==> PATCH: "/updateprofile/:id"
-**Update profile image** ==> PATCH: "/updatedp/:id"
+**Update Profile info** ==> PATCH: "/updateprofile/:id"
+**Update Profile image** ==> PATCH: "/updatedp/:id"

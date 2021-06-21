@@ -6,6 +6,10 @@ const reviewSchema = new mongoose.Schema({
         ref: "Student",
         default: null
     },
+    reviewerName: {
+        type: String,
+        required: true
+    },
     courseId: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: "course",
