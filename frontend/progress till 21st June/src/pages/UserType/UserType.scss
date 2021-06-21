@@ -1,0 +1,62 @@
+.type {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &__tutor {
+    width: 40rem;
+    height: 20rem;
+    border: 1px solid var(--black);
+
+    &-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.8s ease-in-out;
+
+      &:hover {
+        transform: scale(0.9);
+      }
+    }
+
+    &-name {
+      display: block;
+      text-align: center;
+      padding: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      color: inherit;
+      border: 1px solid var(--black);
+    }
+  }
+
+  &__student {
+    width: 40rem;
+    height: 20rem;
+    border: 1px solid var(--black);
+
+    &-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.8s ease-in-out;
+
+      &:hover {
+        transform: scale(0.9);
+      }
+    }
+
+    &-name {
+      display: block;
+      text-align: center;
+      padding: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      color: inherit;
+      border: 1px solid var(--black);
+    }
+  }
+}
