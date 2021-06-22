@@ -1,0 +1,210 @@
+.details {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    // height: 6rem;
+    padding: 1rem 1rem 0 1rem;
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+
+    div {
+      h3 {
+        margin-top: 1rem;
+        color: grey;
+      }
+      small {
+        font-weight: 500;
+        color: rgb(0, 65, 126);
+      }
+    }
+  }
+
+  &__content {
+    height: 100vh;
+    display: flex;
+    // background-color: cadetblue;
+
+    &-left {
+      width: 65%;
+      // height: 150%;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      // background-color: chartreuse;
+
+      &--video {
+        width: 100%;
+        height: 70%;
+        margin-bottom: 1rem;
+        // background-color: crimson;
+
+        & .iframe {
+          & ::-webkit-scrollbar {
+            height: 0;
+            width: 0;
+            background: transparent;
+          }
+        }
+      }
+
+      &--info {
+        width: 100%;
+        padding: 1rem;
+        height: fit-content;
+        background-color: rgba(221, 221, 221, 0.514);
+        border-radius: 10px;
+      }
+
+      &--reviews {
+        margin-top: 2rem;
+        padding: 1rem;
+        max-height: 50vh;
+        h2 {
+          margin-bottom: 1rem;
+          text-decoration: underline;
+        }
+        .review {
+          margin-top: 1rem;
+          padding: 1rem;
+          background-color: rgb(208, 212, 252);
+          font-size: 85%;
+          color: rgba(3, 55, 107, 0.829);
+          border-radius: 0 20px 20px 20px;
+
+          p {
+            padding: 0.5rem;
+
+            color: rgb(73, 73, 73);
+            font-size: 90%;
+          }
+          .rating-grp {
+            display: flex;
+            span {
+              font-weight: bolder;
+              margin-left: 1rem;
+              color: #4b5563;
+            }
+          }
+        }
+      }
+    }
+
+    &-right {
+      width: 35%;
+      // height: 20rem;
+      padding: 1rem;
+      background-color: white;
+      &--videos {
+        width: 100%;
+        height: 50%;
+        overflow: hidden;
+        overflow-y: scroll;
+        background-color: white;
+
+        & .video {
+          width: 100%;
+          height: 5rem;
+          margin: 0.5rem 0;
+          padding: 1rem;
+          border-radius: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background-color: rgb(255, 245, 213);
+        }
+        & :hover {
+          background-color: rgb(252, 183, 166);
+          transition: 0.3s;
+        }
+
+        &-r {
+          display: flex;
+          align-items: center;
+
+          i {
+            margin-left: 1rem;
+            color: rgba(194, 17, 17, 0.815);
+          }
+        }
+      }
+
+      &--uploadbtn {
+        padding: 10px 15px;
+        border-radius: 5px;
+        background-color: #4b5563;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+        color: white;
+        transition: 0.25s;
+        cursor: pointer;
+
+        i {
+          margin-left: 1rem;
+          font-size: 2rem;
+        }
+
+        &:hover {
+          background-color: cornflowerblue;
+          color: white;
+        }
+      }
+
+      &--post-review {
+        margin-top: 8rem;
+
+        .rating-grp {
+          display: flex;
+          align-items: center;
+          margin-top: 0.7rem;
+          h4 {
+            margin-right: 0.5rem;
+          }
+          .gold {
+            color: gold;
+          }
+        }
+
+        textarea {
+          font-family: "Inter", "Gill Sans", "Gill Sans MT", Calibri,
+            "Trebuchet MS", sans-serif;
+          font-size: 80%;
+          margin-top: 1rem;
+          padding: 1rem;
+          width: 100%;
+          height: 25vh;
+          background-color: rgba(208, 212, 252, 0.836);
+          border-radius: 5px;
+          border: 1px solid grey;
+          box-shadow: 1px 1px 5px 1px rgb(168, 184, 182);
+        }
+        button {
+          padding: 10px 15px;
+          border-radius: 5px;
+          border: none;
+          width: 100%;
+          font-size: 110%;
+          font-weight: 500;
+          margin-top: 0.5rem;
+          background-color: #4b5563;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 1rem;
+          color: white;
+          transition: 0.25s;
+          cursor: pointer;
+
+          &:hover {
+            background-color: cornflowerblue;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

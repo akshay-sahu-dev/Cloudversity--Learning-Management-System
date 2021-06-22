@@ -1,0 +1,64 @@
+.coursedb {
+  font-size: 1.4rem;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  padding: 1rem 2rem 1rem 1rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: space-between;
+  // flex-wrap: wrap;
+  align-items: center;
+  // box-shadow: var(--shadow);
+  // overflow: hidden;
+  background-color: var(--white);
+
+  &__img {
+    width: 6rem;
+    height: 6rem;
+    // margin-right: 3rem;
+    border-radius: 0.5rem;
+    object-fit: cover;
+  }
+
+  &__name {
+    &-title {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__time {
+    display: flex;
+    align-items: center;
+    // margin-right: 4rem;
+
+    &-icon {
+      width: 2rem;
+      height: auto;
+      margin-right: 1rem;
+    }
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    // margin-right: 4rem;
+
+    &-icon {
+      width: 2rem;
+      height: auto;
+      margin-right: 1rem;
+    }
+  }
+
+  &__viewBtn {
+    font-size: 1.5rem;
+    font-weight: 400;
+    // padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    border-style: none;
+    cursor: pointer;
+    background-color: var(--black);
+  }
+}

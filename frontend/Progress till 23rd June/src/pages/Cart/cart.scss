@@ -1,0 +1,118 @@
+.cart {
+  padding: 3rem;
+
+  &__section {
+    padding: 0vw 3vw;
+    margin: 0 auto;
+    width: 70vw;
+    text-align: center;
+
+    h2 {
+      color: rgb(38, 63, 97);
+      margin-bottom: 4rem;
+    }
+
+    &_item {
+      display: flex;
+      flex-direction: column;
+      font-size: 110%;
+      margin-top: 2vh;
+      border: 2px solid rgba(230, 247, 255, 0.747);
+      padding: 3rem 5rem;
+      //   background-color: rgb(240, 248, 255);
+      border-radius: 10px;
+      box-shadow: 5px 5px 3px rgba(151, 180, 168, 0.24);
+    }
+  }
+}
+
+.cart__item_container {
+  margin: 1rem 2rem 0 2rem;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(233, 233, 190, 0.301),
+    rgba(238, 93, 182, 0.336)
+  );
+  transition: 0.2s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .course_details {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    flex-basis: 60%;
+
+    .thumbnail img {
+      border-radius: 5px;
+      margin-right: 1rem;
+      width: 80px;
+      height: 55px;
+      box-shadow: 1px 1px 3px rgb(153, 153, 153);
+    }
+
+    .course_title {
+      color: rgb(49, 49, 49);
+
+      p {
+        text-align: left;
+        font-size: 80%;
+        color: rgb(98, 107, 116);
+      }
+    }
+  }
+
+  .price {
+    font-size: 120%;
+    color: maroon;
+    font-weight: 600;
+    flex-basis: 8%;
+    display: flex;
+    align-items: center;
+  }
+
+  .action_buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-basis: 32%;
+
+    .buy_btn {
+      button {
+        padding: 1rem 2rem;
+        background-color: rgb(43, 161, 43);
+        border-radius: 5px;
+        border: 1px solid rgb(82, 216, 82);
+        font-size: 105%;
+        font-weight: 500;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-right: 2rem;
+
+        &:hover {
+          background-color: mediumspringgreen;
+          color: rgb(18, 71, 18);
+        }
+      }
+    }
+    .remove_from_cart {
+      font-size: 170%;
+      color: rgb(158, 7, 7);
+      cursor: pointer;
+      // transition: 0.1s;
+
+      &:hover {
+        color: red;
+        transform: scale(1.05);
+      }
+    }
+  }
+}
