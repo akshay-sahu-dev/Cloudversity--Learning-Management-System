@@ -1,0 +1,121 @@
+.home {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  overflow: hidden;
+  overflow-y: scroll;
+
+  // ::-webkit-scrollbar {
+  //   height: 6px;
+  //   width: 6px;
+  // }
+
+  // ::-webkit-scrollbar-thumb {
+  //   background: rgba(255, 166, 0, 0.8);
+  //   border-radius: 0.5rem;
+  // }
+
+  &__brand {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__filterIcons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    &-content {
+      padding: 0.5rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      display: flex;
+      margin-bottom: 1rem;
+      justify-content: space-between;
+      align-items: center;
+
+      & > img {
+        width: 2.5rem;
+      }
+    }
+  }
+
+  &__scroll {
+    display: flex;
+
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin: 0 auto;
+    }
+
+    @media (min-width: 600px) {
+      &-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 950px) {
+      &-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1130px) {
+      &-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    &-list {
+      width: 100%;
+      height: auto;
+      display: flex;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+
+    &-btns {
+      font-size: 2rem;
+      padding: 0 1rem 1rem 1rem;
+      // align-self: center;
+      border-radius: 1rem;
+      cursor: pointer;
+      outline-style: none;
+      border-style: none;
+    }
+  }
+}
+
+.all {
+  // width: 4rem;
+  border: 1px solid red;
+}
+
+.popular {
+  width: 10rem;
+  border: 1px solid brown;
+}
+
+.rated {
+  width: 14.5rem;
+  border: 1px solid royalblue;
+}
+
+.free {
+  width: 8rem;
+  border: 1px solid green;
+}
+
+.paid {
+  width: 7.5rem;
+  border: 1px solid orange;
+}
+
+.new {
+  width: 16.5rem;
+  border: 1px solid purple;
+}
